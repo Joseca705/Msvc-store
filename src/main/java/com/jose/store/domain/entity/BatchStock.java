@@ -1,0 +1,65 @@
+package com.jose.store.domain.entity;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import org.springframework.data.annotation.Id;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity(name = "batch_stocks")
+public class BatchStock extends BaseEntity implements Serializable {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
+
+  @Column(name = "purchse_price", nullable = false, precision = 2)
+  private BigDecimal purchasePrice;
+
+  @Column(name = "initial_amount", nullable = false)
+  private Integer initialAmount;
+
+  @Column(name = "current_amount", nullable = false)
+  private Integer currentAmount;
+
+  @Column(name = "expiration_date", nullable = false)
+  private LocalDate expirationDate;
+
+  @Column(name = "acquisition_date", nullable = false)
+  private LocalDate acquisitionDate;
+
+  @Column(nullable = false)
+  private Boolean active;
+
+  @ManyToOne
+  @JoinColumn(
+    name = "product_id",
+    referencedColumnName = "id",
+    nullable = false
+  )
+  private Product product;
+
+  @ManyToOne
+  @JoinColumn(
+    name = "provider_id",
+    referencedColumnName = "id",
+    nullable = false
+  )
+  private Provider provider;
+  
+}
