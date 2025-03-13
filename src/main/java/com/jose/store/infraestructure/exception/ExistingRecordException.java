@@ -1,4 +1,4 @@
-package com.jose.store.infraestructure.util;
+package com.jose.store.infraestructure.exception;
 
 public class ExistingRecordException extends RuntimeException {
 

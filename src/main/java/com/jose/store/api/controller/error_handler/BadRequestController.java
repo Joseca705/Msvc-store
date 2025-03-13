@@ -3,7 +3,7 @@ package com.jose.store.api.controller.error_handler;
 import com.jose.store.api.model.response.ErrorResponse;
 import com.jose.store.api.model.response.ErrorsResponse;
 import com.jose.store.api.model.response.abstract_response.BaseErrorResponse;
-import com.jose.store.infraestructure.util.ExistingRecordException;
+import com.jose.store.infraestructure.exception.ExistingRecordException;
 import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
