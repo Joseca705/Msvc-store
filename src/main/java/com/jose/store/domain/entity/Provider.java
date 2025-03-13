@@ -1,21 +1,19 @@
 package com.jose.store.domain.entity;
 
-import java.io.Serializable;
-import java.util.List;
-
-import org.springframework.data.annotation.Id;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
+import java.io.Serializable;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -44,5 +42,4 @@ public class Provider extends BaseEntity implements Serializable {
   @EqualsAndHashCode.Exclude
   @OneToMany(mappedBy = "provider", fetch = FetchType.LAZY)
   private List<BatchStock> batchs;
-
 }

@@ -1,15 +1,6 @@
 package com.jose.store.domain.entity;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import com.jose.store.domain.constant.Status;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -18,13 +9,20 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.time.LocalDateTime;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
-@Column(name = "created_at", updatable = false, nullable = false)
+
+  @Column(name = "created_at", updatable = false, nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
   @CreatedDate
   private LocalDateTime createdAt;
@@ -50,5 +48,4 @@ public abstract class BaseEntity {
   public void onPrePersist() {
     this.status = Status.ACTIVE;
   }
-  
 }
