@@ -26,7 +26,7 @@ public class BatchStock extends BaseEntity implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column(name = "purchase_price", nullable = false, scale = 2)
+  @Column(name = "purchase_price", nullable = false, precision = 38, scale = 2)
   private BigDecimal purchasePrice;
 
   @Column(name = "initial_amount", nullable = false)
