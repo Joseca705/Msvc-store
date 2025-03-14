@@ -33,7 +33,7 @@ public class Product extends BaseEntity implements Serializable {
   @Column(length = 100, nullable = false)
   private String name;
 
-  @Column(name = "sale_price", nullable = false, precision = 2)
+  @Column(name = "sale_price", nullable = false, scale = 2)
   private BigDecimal salePrice;
 
   @Column(name = "umbral_stock", nullable = false)
