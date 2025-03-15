@@ -1,5 +1,6 @@
 package com.jose.store.domain.entity;
 
+import com.jose.store.domain.constant.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "batch_stocks")
+@Entity(name = "batch_stock")
 public class BatchStock extends BaseEntity implements Serializable {
 
   @Id
@@ -59,4 +61,12 @@ public class BatchStock extends BaseEntity implements Serializable {
     nullable = false
   )
   private Provider provider;
+
+  @PrePersist
+  public void onPrePersist() {
+    this.setStatus(Status.ACTIVE);
+    this.acquisitionDate = LocalDate.now();
+    this.active = true;
+    this.currentAmount = this.initialAmount;
+  }
 }

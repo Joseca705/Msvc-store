@@ -1,5 +1,6 @@
 package com.jose.store.domain.entity;
 
+import com.jose.store.domain.constant.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -7,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import java.io.Serializable;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -42,4 +44,13 @@ public class Provider extends BaseEntity implements Serializable {
   @EqualsAndHashCode.Exclude
   @OneToMany(mappedBy = "provider", fetch = FetchType.LAZY)
   private List<BatchStock> batchs;
+
+  public Provider(Integer id) {
+    this.id = id;
+  }
+
+  @PrePersist
+  public void onPrePersist() {
+    this.setStatus(Status.ACTIVE);
+  }
 }
