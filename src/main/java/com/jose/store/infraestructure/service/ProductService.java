@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class ProductService implements IProductService {
   private final ProductRepository productRepository;
   private final BatchStockRepository batchStockRepository;
 
+  @Transactional
   @Override
   public CreatedProduct create(CreateProductDto request) {
     String formattedName = request.getName().trim().toUpperCase();

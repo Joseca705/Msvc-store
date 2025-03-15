@@ -3,6 +3,7 @@ package com.jose.store.domain.entity;
 import com.jose.store.domain.constant.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -46,7 +47,7 @@ public class BatchStock extends BaseEntity implements Serializable {
   @Column(nullable = false)
   private Boolean active;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(
     name = "product_id",
     referencedColumnName = "id",
@@ -54,7 +55,7 @@ public class BatchStock extends BaseEntity implements Serializable {
   )
   private Product product;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(
     name = "provider_id",
     referencedColumnName = "id",
