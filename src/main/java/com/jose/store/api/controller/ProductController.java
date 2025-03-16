@@ -3,9 +3,11 @@ package com.jose.store.api.controller;
 import com.jose.store.api.model.projection.ProductProjection;
 import com.jose.store.api.model.request.CreateProductDto;
 import com.jose.store.api.model.response.CreatedProduct;
+import com.jose.store.api.model.response.ProductLessThanUmbral;
 import com.jose.store.api.model.response.ProductResponseDto;
 import com.jose.store.infraestructure.abstract_service.IProductService;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -51,5 +53,14 @@ public class ProductController {
   ) {
     ProductResponseDto product = this.productService.findProductByCode(code);
     return ResponseEntity.ok(product);
+  }
+
+  @GetMapping(path = "/less-than-umbral")
+  public ResponseEntity<
+    List<ProductLessThanUmbral>
+  > getProductsLessThanUmbralStock() {
+    return ResponseEntity.ok(
+      this.productService.findProductsLessThanUmbralStock()
+    );
   }
 }

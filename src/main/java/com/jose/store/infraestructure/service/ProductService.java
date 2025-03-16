@@ -1,9 +1,12 @@
 package com.jose.store.infraestructure.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jose.store.api.model.projection.ProductByCodeProjection;
 import com.jose.store.api.model.projection.ProductProjection;
 import com.jose.store.api.model.request.CreateProductDto;
 import com.jose.store.api.model.response.CreatedProduct;
+import com.jose.store.api.model.response.ProductLessThanUmbral;
 import com.jose.store.api.model.response.ProductResponseDto;
 import com.jose.store.domain.entity.Product;
 import com.jose.store.domain.repository.BatchStockRepository;
@@ -12,6 +15,9 @@ import com.jose.store.infraestructure.abstract_service.IProductService;
 import com.jose.store.infraestructure.exception.CodeNotValidException;
 import com.jose.store.infraestructure.exception.ExistingRecordException;
 import com.jose.store.infraestructure.exception.ProductDoesNotExistException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +33,7 @@ public class ProductService implements IProductService {
 
   private final ProductRepository productRepository;
   private final BatchStockRepository batchStockRepository;
+  private final ObjectMapper mapper;
 
   @Transactional
   @Override
@@ -96,6 +103,23 @@ public class ProductService implements IProductService {
     if (!existsBatch) throw new ProductDoesNotExistException();
 
     return entityToDto(productProjection, batchId);
+  }
+
+  @Override
+  public List<ProductLessThanUmbral> findProductsLessThanUmbralStock() {
+    List<String> stringProducts =
+      this.productRepository.findProductsLessThanUmbralStock();
+
+    return stringProducts
+      .stream()
+      .map(product -> {
+        try {
+          return mapper.readValue(product, ProductLessThanUmbral.class);
+        } catch (JsonProcessingException e) {
+          throw new RuntimeException("Error parseando", e);
+        }
+      })
+      .collect(Collectors.toList());
   }
 
   private Product dtoToEntity(CreateProductDto dto, String code) {
