@@ -10,4 +10,6 @@ public interface BatchStockSimpleInfoProjection {
   Integer getCurrentAmount();
 
   BigDecimal getPurchasePrice();
+
+  Integer getProductId();
 }
