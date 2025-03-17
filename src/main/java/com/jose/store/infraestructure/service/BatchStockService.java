@@ -2,6 +2,7 @@ package com.jose.store.infraestructure.service;
 
 import com.jose.store.api.model.projection.BatchStockSimpleInfoProjection;
 import com.jose.store.api.model.request.CreateBatchStockDto;
+import com.jose.store.api.model.request.CreateKardexRequest;
 import com.jose.store.api.model.response.CreatedBatchStock;
 import com.jose.store.api.model.response.UpdatedAmountBatchResponse;
 import com.jose.store.domain.entity.BatchStock;
@@ -11,6 +12,7 @@ import com.jose.store.domain.repository.BatchStockRepository;
 import com.jose.store.domain.repository.ProductRepository;
 import com.jose.store.domain.repository.ProviderRepository;
 import com.jose.store.infraestructure.abstract_service.IBatchStockService;
+import com.jose.store.infraestructure.client.KardexClient;
 import com.jose.store.infraestructure.exception.BatchStockDoesNotExistException;
 import com.jose.store.infraestructure.exception.ProductDoesNotExistException;
 import com.jose.store.infraestructure.exception.ProviderDoesNotExistException;
@@ -27,8 +29,8 @@ public class BatchStockService implements IBatchStockService {
   private final ProductRepository productRepository;
   private final ProviderRepository providerRepository;
   private final BatchStockRepository batchStockRepository;
+  private final KardexClient client;
 
-  @Transactional
   @Override
   public CreatedBatchStock create(CreateBatchStockDto request) {
     Boolean existsProduct =
@@ -39,7 +41,22 @@ public class BatchStockService implements IBatchStockService {
       this.providerRepository.existsById(request.getProviderId());
     if (!existsProvider) throw new ProviderDoesNotExistException();
 
-    this.batchStockRepository.save(dtoToEntity(request));
+    BatchStock stock = this.batchStockRepository.save(dtoToEntity(request));
+
+    List<CreateKardexRequest> requests = List.of(
+      new CreateKardexRequest(
+        "SALIDA",
+        stock.getCurrentAmount(),
+        stock.getCurrentAmount(),
+        stock.getPurchasePrice(),
+        "COMPRA DE",
+        stock.getId(),
+        request.getProductId(),
+        stock.getId()
+      )
+    );
+
+    this.client.saveSaleIntoKardex(requests);
 
     return new CreatedBatchStock("Batch stock created succesfully");
   }
