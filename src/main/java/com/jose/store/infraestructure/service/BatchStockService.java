@@ -1,5 +1,6 @@
 package com.jose.store.infraestructure.service;
 
+import com.jose.store.api.model.projection.BatchStockSimpleInfoProjection;
 import com.jose.store.api.model.request.CreateBatchStockDto;
 import com.jose.store.api.model.response.CreatedBatchStock;
 import com.jose.store.api.model.response.UpdatedAmountBatchResponse;
@@ -13,6 +14,7 @@ import com.jose.store.infraestructure.abstract_service.IBatchStockService;
 import com.jose.store.infraestructure.exception.BatchStockDoesNotExistException;
 import com.jose.store.infraestructure.exception.ProductDoesNotExistException;
 import com.jose.store.infraestructure.exception.ProviderDoesNotExistException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -76,6 +78,13 @@ public class BatchStockService implements IBatchStockService {
   public void delete(Integer id) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'delete'");
+  }
+
+  @Override
+  public List<BatchStockSimpleInfoProjection> getBatchStocksSimpleInfo(
+    List<Integer> ids
+  ) {
+    return this.batchStockRepository.findByIdIn(ids);
   }
 
   private BatchStock dtoToEntity(CreateBatchStockDto dto) {
