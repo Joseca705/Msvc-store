@@ -41,9 +41,6 @@ public class BatchStock extends BaseEntity implements Serializable {
   @Column(name = "acquisition_date", nullable = false)
   private LocalDate acquisitionDate;
 
-  @Column(nullable = false)
-  private Boolean active;
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(
     name = "product_id",
