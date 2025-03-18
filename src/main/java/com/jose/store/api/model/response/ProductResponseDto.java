@@ -15,6 +15,4 @@ public class ProductResponseDto {
   private String name;
 
   private BigDecimal salePrice;
-
-  private Integer batchId;
 }

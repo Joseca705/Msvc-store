@@ -3,9 +3,7 @@ package com.jose.store.infraestructure.abstract_service;
 import com.jose.store.api.model.projection.ProductProjection;
 import com.jose.store.api.model.request.CreateProductDto;
 import com.jose.store.api.model.response.CreatedProduct;
-import com.jose.store.api.model.response.ProductLessThanUmbral;
 import com.jose.store.api.model.response.ProductResponseDto;
-import java.util.List;
 import org.springframework.data.domain.Page;
 
 public interface IProductService
@@ -17,6 +15,4 @@ public interface IProductService
   );
 
   ProductResponseDto findProductByCode(String code);
-
-  List<ProductLessThanUmbral> findProductsLessThanUmbralStock();
 }

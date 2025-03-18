@@ -4,7 +4,6 @@ import com.jose.store.api.model.response.ErrorResponse;
 import com.jose.store.api.model.response.ErrorsResponse;
 import com.jose.store.api.model.response.abstract_response.BaseErrorResponse;
 import com.jose.store.infraestructure.exception.BatchStockDoesNotExistException;
-import com.jose.store.infraestructure.exception.CodeNotValidException;
 import com.jose.store.infraestructure.exception.ExistingRecordException;
 import com.jose.store.infraestructure.exception.ProductDoesNotExistException;
 import com.jose.store.infraestructure.exception.ProviderDoesNotExistException;
@@ -70,17 +69,6 @@ public class BadRequestController {
   @ExceptionHandler(exception = BatchStockDoesNotExistException.class)
   public BaseErrorResponse handleBatchStockDoesNotExistException(
     BatchStockDoesNotExistException exception
-  ) {
-    return ErrorResponse.builder()
-      .error(exception.getMessage())
-      .status(HttpStatus.BAD_REQUEST.name())
-      .code(HttpStatus.BAD_REQUEST.value())
-      .build();
-  }
-
-  @ExceptionHandler(exception = CodeNotValidException.class)
-  public BaseErrorResponse handleCodeNotValidException(
-    CodeNotValidException exception
   ) {
     return ErrorResponse.builder()
       .error(exception.getMessage())

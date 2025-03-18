@@ -35,9 +35,6 @@ public class BatchStock extends BaseEntity implements Serializable {
   @Column(name = "initial_amount", nullable = false)
   private Integer initialAmount;
 
-  @Column(name = "current_amount", nullable = false)
-  private Integer currentAmount;
-
   @Column(name = "expiration_date", nullable = false)
   private LocalDate expirationDate;
 
@@ -68,6 +65,5 @@ public class BatchStock extends BaseEntity implements Serializable {
     this.setStatus(Status.ACTIVE);
     this.acquisitionDate = LocalDate.now();
     this.active = true;
-    this.currentAmount = this.initialAmount;
   }
 }
