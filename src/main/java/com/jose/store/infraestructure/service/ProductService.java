@@ -49,9 +49,29 @@ public class ProductService implements IProductService {
   }
 
   @Override
+  @Transactional
   public CreatedProduct update(CreateProductDto request, Integer id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'update'");
+    Product foundedProduct =
+      this.productRepository.findById(id).orElseThrow(() ->
+          new ProductDoesNotExistException()
+        );
+
+    String formattedName = request.getName().trim().toUpperCase();
+    String code = DigestUtils.sha256Hex(formattedName);
+    Boolean existingProduct = this.productRepository.existsByCode(code);
+
+    if (existingProduct) throw new ExistingRecordException(
+      "Product already exists"
+    );
+
+    foundedProduct.setName(formattedName);
+    foundedProduct.setUmbralStock(request.getUmbralStock());
+    foundedProduct.setSalePrice(request.getSalePrice());
+    foundedProduct.setCode(code);
+
+    this.productRepository.save(foundedProduct);
+
+    return new CreatedProduct("Producto actualizado exitosamente.");
   }
 
   @Override

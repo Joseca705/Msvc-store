@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,5 +53,14 @@ public class ProductController {
   ) {
     ProductResponseDto product = this.productService.findProductByCode(code);
     return ResponseEntity.ok(product);
+  }
+
+  @PatchMapping(path = "/{id}")
+  public ResponseEntity<CreatedProduct> updateProduct(
+    @PathVariable(name = "id") Integer id,
+    @RequestBody CreateProductDto dto
+  ) {
+    CreatedProduct response = this.productService.update(dto, id);
+    return ResponseEntity.ok(response);
   }
 }
