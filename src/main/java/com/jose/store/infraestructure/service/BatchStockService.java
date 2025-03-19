@@ -1,5 +1,6 @@
 package com.jose.store.infraestructure.service;
 
+import com.jose.store.api.model.projection.PriceBatchProjection;
 import com.jose.store.api.model.request.CreateBatchStockDto;
 import com.jose.store.api.model.request.CreateKardexRequest;
 import com.jose.store.api.model.response.CreatedBatchStock;
@@ -11,6 +12,7 @@ import com.jose.store.domain.repository.ProductRepository;
 import com.jose.store.domain.repository.ProviderRepository;
 import com.jose.store.infraestructure.abstract_service.IBatchStockService;
 import com.jose.store.infraestructure.client.KardexClient;
+import com.jose.store.infraestructure.exception.BatchStockDoesNotExistException;
 import com.jose.store.infraestructure.exception.ProductDoesNotExistException;
 import com.jose.store.infraestructure.exception.ProviderDoesNotExistException;
 import java.util.List;
@@ -55,6 +57,15 @@ public class BatchStockService implements IBatchStockService {
     this.client.saveSaleIntoKardex(requests);
 
     return new CreatedBatchStock("Batch stock created succesfully");
+  }
+
+  @Override
+  public List<PriceBatchProjection> FindPriceFromBatch(List<Integer> ids) {
+    List<PriceBatchProjection> batchs =
+      this.batchStockRepository.findByIdIn(ids);
+
+    if (batchs.isEmpty()) throw new BatchStockDoesNotExistException();
+    return batchs;
   }
 
   @Override
