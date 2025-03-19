@@ -37,6 +37,7 @@ public class CreateBatchStockDto implements Serializable {
     fraction = 4,
     message = "El valor de purchasePrice puede contener hasta 4 decimales."
   )
+  @Min(1)
   @NotNull(message = "El campo purchasePrice no debe ser nulo.")
   private BigDecimal purchasePrice;
 }
