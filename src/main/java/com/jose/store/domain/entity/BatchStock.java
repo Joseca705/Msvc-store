@@ -61,6 +61,5 @@ public class BatchStock extends BaseEntity implements Serializable {
   public void onPrePersist() {
     this.setStatus(Status.ACTIVE);
     this.acquisitionDate = LocalDate.now();
-    this.active = true;
   }
 }
