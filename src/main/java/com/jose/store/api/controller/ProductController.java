@@ -26,7 +26,7 @@ public class ProductController {
 
   private final IProductService productService;
 
-  @GetMapping
+  @GetMapping(path = "")
   public ResponseEntity<
     Page<ProductProjection>
   > getPaginatedAndFilteredProducts(
