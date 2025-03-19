@@ -32,7 +32,9 @@ public class BatchStockController {
   @GetMapping(path = "/simple-info")
   public ResponseEntity<
     List<BatchStockSimpleInfoProjection>
-  > getBatchStockSimpleInfo(@RequestParam List<Integer> ids) {
+  > getBatchStockSimpleInfo(
+    @RequestParam(name = "ids", required = true) List<Integer> ids
+  ) {
     return ResponseEntity.ok(
       this.batchStockService.getBatchStocksSimpleInfo(ids)
     );

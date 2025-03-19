@@ -3,6 +3,6 @@ package com.jose.store.infraestructure.exception;
 public class ProductDoesNotExistException extends RuntimeException {
 
   public ProductDoesNotExistException() {
-    super("The given product does not exist.");
+    super("El producto no existe.");
   }
 }

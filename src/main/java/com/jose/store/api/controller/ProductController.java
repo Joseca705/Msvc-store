@@ -30,9 +30,9 @@ public class ProductController {
   public ResponseEntity<
     Page<ProductProjection>
   > getPaginatedAndFilteredProducts(
-    @RequestParam(defaultValue = "") String name,
-    @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "5") int size
+    @RequestParam(defaultValue = "", required = false) String name,
+    @RequestParam(defaultValue = "0", required = false) int page,
+    @RequestParam(defaultValue = "5", required = false) int size
   ) {
     Page<ProductProjection> products =
       this.productService.getPaginatedAndFilteredProducts(name, page, size);
@@ -49,7 +49,7 @@ public class ProductController {
 
   @GetMapping(path = "/code")
   public ResponseEntity<ProductResponseDto> getProductByCode(
-    @RequestParam(required = true, value = "code") String code
+    @RequestParam(required = true, name = "code") String code
   ) {
     ProductResponseDto product = this.productService.findProductByCode(code);
     return ResponseEntity.ok(product);

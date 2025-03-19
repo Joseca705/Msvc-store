@@ -21,9 +21,9 @@ public class ProviderController {
   public ResponseEntity<
     Page<ProviderProjection>
   > getPaginatedAndFilteredProducts(
-    @RequestParam(defaultValue = "") String name,
-    @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "5") int size
+    @RequestParam(defaultValue = "", required = false) String name,
+    @RequestParam(defaultValue = "0", required = false) int page,
+    @RequestParam(defaultValue = "5", required = false) int size
   ) {
     Page<ProviderProjection> providers =
       this.providerService.getPaginatedAndFilteredProviders(name, page, size);
