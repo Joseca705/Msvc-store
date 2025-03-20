@@ -3,7 +3,9 @@ package com.jose.store.infraestructure.service;
 import com.jose.store.api.model.projection.PriceBatchProjection;
 import com.jose.store.api.model.request.CreateBatchStockDto;
 import com.jose.store.api.model.request.CreateKardexRequest;
+import com.jose.store.api.model.request.IdBatchProductDto;
 import com.jose.store.api.model.response.CreatedBatchStock;
+import com.jose.store.api.model.response.PriceBatchResponse;
 import com.jose.store.domain.entity.BatchStock;
 import com.jose.store.domain.entity.Product;
 import com.jose.store.domain.entity.Provider;
@@ -16,6 +18,8 @@ import com.jose.store.infraestructure.exception.BatchStockDoesNotExistException;
 import com.jose.store.infraestructure.exception.ProductDoesNotExistException;
 import com.jose.store.infraestructure.exception.ProviderDoesNotExistException;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -60,12 +64,36 @@ public class BatchStockService implements IBatchStockService {
   }
 
   @Override
-  public List<PriceBatchProjection> FindPriceFromBatch(List<Integer> ids) {
+  public List<PriceBatchResponse> FindPriceFromBatch(
+    List<IdBatchProductDto> ids
+  ) {
+    List<Integer> batchIds = ids
+      .stream()
+      .map(IdBatchProductDto::getBatchId)
+      .toList();
     List<PriceBatchProjection> batchs =
-      this.batchStockRepository.findByIdIn(ids);
+      this.batchStockRepository.findByIdIn(batchIds);
 
     if (batchs.isEmpty()) throw new BatchStockDoesNotExistException();
-    return batchs;
+
+    Set<String> validPairs = batchs
+      .stream()
+      .map(batch -> batch.getId() + "-" + batch.getProductId())
+      .collect(Collectors.toSet());
+
+    boolean allMatch = ids
+      .stream()
+      .allMatch(bp ->
+        validPairs.contains(bp.getBatchId() + "-" + bp.getBatchId())
+      );
+    if (!allMatch) throw new ProductDoesNotExistException();
+
+    return batchs
+      .stream()
+      .map(batch ->
+        new PriceBatchResponse(batch.getId(), batch.getPurchasePrice())
+      )
+      .toList();
   }
 
   @Override
