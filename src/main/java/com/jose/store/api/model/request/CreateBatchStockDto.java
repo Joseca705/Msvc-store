@@ -1,5 +1,6 @@
 package com.jose.store.api.model.request;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
@@ -37,7 +38,10 @@ public class CreateBatchStockDto implements Serializable {
     fraction = 4,
     message = "El valor de purchasePrice puede contener hasta 4 decimales."
   )
-  @Min(1)
+  @DecimalMin(
+    value = "0.10",
+    message = "El valor de purchasePrice no debe ser menor a 0.10."
+  )
   @NotNull(message = "El campo purchasePrice no debe ser nulo.")
   private BigDecimal purchasePrice;
 }

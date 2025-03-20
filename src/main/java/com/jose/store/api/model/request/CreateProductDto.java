@@ -1,5 +1,6 @@
 package com.jose.store.api.model.request;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -29,7 +30,10 @@ public class CreateProductDto implements Serializable {
     fraction = 4,
     message = "El numero de salePrice puede contener hasta 4 decimales."
   )
-  @Min(value = 1, message = "El valor de salePrice no debe ser menor a 1.")
+  @DecimalMin(
+    value = "0.10",
+    message = "El valor de salePrice no debe ser menor a 0.10."
+  )
   private BigDecimal salePrice;
 
   @NotNull(message = "El campo umbralStock no debe ser nulo.")
