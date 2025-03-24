@@ -84,7 +84,7 @@ public class BatchStockService implements IBatchStockService {
     boolean allMatch = ids
       .stream()
       .allMatch(bp ->
-        validPairs.contains(bp.getBatchId() + "-" + bp.getBatchId())
+        validPairs.contains(bp.getBatchId() + "-" + bp.getProductId())
       );
     if (!allMatch) throw new ProductDoesNotExistException();
 

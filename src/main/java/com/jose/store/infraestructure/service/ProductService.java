@@ -58,11 +58,6 @@ public class ProductService implements IProductService {
 
     String formattedName = request.getName().trim().toUpperCase();
     String code = DigestUtils.sha256Hex(formattedName);
-    Boolean existingProduct = this.productRepository.existsByCode(code);
-
-    if (existingProduct) throw new ExistingRecordException(
-      "Product already exists"
-    );
 
     foundedProduct.setName(formattedName);
     foundedProduct.setUmbralStock(request.getUmbralStock());
