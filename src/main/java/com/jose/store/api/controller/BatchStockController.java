@@ -29,8 +29,8 @@ public class BatchStockController {
   }
 
   @PostMapping(path = "/batch-prices")
-  public ResponseEntity<List<PriceBatchResponse>> getSimpleInfoKardex(
-    @RequestBody List<IdBatchProductDto> ids
+  public ResponseEntity<List<PriceBatchResponse>> getBatchPrices(
+    @Valid @RequestBody List<IdBatchProductDto> ids
   ) {
     List<PriceBatchResponse> response =
       this.batchStockService.FindPriceFromBatch(ids);
